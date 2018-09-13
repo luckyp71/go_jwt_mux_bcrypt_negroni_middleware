@@ -149,7 +149,8 @@ func LoginHandler(res http.ResponseWriter, req *http.Request) {
 	var _ = json.NewDecoder(req.Body).Decode(&user)
 	userPassword := user.Password
 	if e := db.Where("username =?", user.Username).First(&user).Error; e != nil {
-		fmt.Println("Not Found")
+		fmt.Println(e)
+		h.NotFound(res)
 	} else {
 		if e := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userPassword)); e != nil {
 			fmt.Println(e)
