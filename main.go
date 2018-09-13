@@ -10,6 +10,7 @@ import (
 	"github.com/codegangsta/negroni"
 	jwt "github.com/dgrijalva/jwt-go"
 	jwtreq "github.com/dgrijalva/jwt-go/request"
+	"github.com/gorilla/context"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -46,7 +47,7 @@ func main() {
 	apiRoute.HandleFunc("/register", RegisterUser).Methods("POST")
 	apiRoute.HandleFunc("/login", LoginHandler).Methods("POST")
 	apiRoute.HandleFunc("/landingpage", LandingHandler).Methods("GET")
-	http.ListenAndServe(":8080", router)
+	http.ListenAndServe(":8080", context.ClearHandler(router))
 }
 
 //HomeHandler can be invoked by anyone
